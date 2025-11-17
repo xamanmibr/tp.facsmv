@@ -26,27 +26,39 @@
       background: rgba(10, 10, 10, 0.95);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      display: flex;
-      align-items: center;
+      padding: 8px 12px;
       z-index: 1000;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    #controlsInner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: 100%;
+      white-space: nowrap;
+      transform-origin: left top;
     }
 
     .logo-section {
       flex: 0 0 auto;
       min-width: 60px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
     }
 
     .controls-center {
-      flex: 1;
+      flex: 1 1 auto;
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       gap: 16px;
       justify-content: center;
       align-items: center;
+      min-width: 0;
     }
 
     .controls-spacer {
@@ -62,6 +74,19 @@
       filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
     }
 
+    #author-link {
+      font-size: 10px;
+      color: #aaaaaa;
+      text-decoration: none;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    #author-link:hover {
+      color: #4ecdc4;
+      text-decoration: underline;
+    }
+
     #logo:hover {
       transform: scale(1.05);
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
@@ -71,7 +96,8 @@
       display: flex;
       gap: 12px;
       align-items: center;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      flex-shrink: 0;
     }
 
     .control-group {
@@ -274,7 +300,6 @@
       margin: 0 auto;
     }
 
-    /* Remove formatação problemática de elementos colados, mas preserva bold/italic */
     #teleprompterContent * {
       color: inherit !important;
       background: transparent !important;
@@ -293,7 +318,6 @@
       max-width: 100% !important;
     }
 
-    /* Garante que parágrafos ficam centralizados na div */
     #teleprompterContent p,
     #teleprompterContent div,
     #teleprompterContent span,
@@ -324,7 +348,7 @@
 
     @media (max-width: 768px) {
       #controls {
-        padding: 15px 10px;
+        padding: 8px 8px;
       }
 
       .logo-section {
@@ -373,7 +397,7 @@
 
     @media (max-width: 480px) {
       #controls {
-        padding: 10px 5px;
+        padding: 8px 6px;
       }
 
       .logo-section {
@@ -424,100 +448,103 @@
 </head>
 <body>
   <div id="controls">
-    <div class="logo-section">
-      <img id="logo" src="logo.svg" alt="Logo">
+    <div id="controlsInner">
+      <div class="logo-section">
+        <img id="logo" src="logo.svg" alt="Logo">
+        <a id="author-link" href="mailto:renan.alves@hmv.org.br">feito por renan.alves@hmv.org.br</a>
+      </div>
+
+      <div class="controls-center">
+        <div class="control-section">
+          <div class="control-group">
+            <div class="control-label">Controles</div>
+            <div style="display: flex; gap: 8px;">
+              <button id="playPause">Play</button>
+              <button id="reset">Início</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="control-section">
+          <div class="control-group">
+            <div class="control-label">Velocidade</div>
+            <input type="range" id="speedRange" min="0" max="10" step="0.1" value="2">
+            <input type="number" id="speedNumber" min="0" max="10" step="0.1" value="2">
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="control-section">
+          <div class="control-group">
+            <div class="control-label">Espelhamento</div>
+            <div class="flip-buttons">
+              <button id="flipH" title="Espelhar Horizontal">↔️</button>
+              <button id="flipV" title="Espelhar Vertical">↕️</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="control-section">
+          <div class="control-group">
+            <div class="control-label">Fonte</div>
+            <select id="fontSelect">
+              <option value="Arial">Arial</option>
+              <option value="Verdana">Verdana</option>
+              <option value="Courier New">Courier New</option>
+              <option value="Georgia">Georgia</option>
+              <option value="Times New Roman">Times New Roman</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <div class="control-label">Tamanho</div>
+            <input type="range" id="fontSizeControl" min="10" max="150" step="1" value="32">
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="control-section">
+          <div class="control-group">
+            <div class="control-label">Cores</div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <input type="color" id="textColor" value="#ffffff" title="Cor do texto">
+              <input type="color" id="bgColor" value="#000000" title="Cor de fundo">
+            </div>
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="control-section">
+          <div class="control-group">
+            <div class="control-label">Layout</div>
+            <input type="range" id="widthControl" min="30" max="100" value="40" title="Largura">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label">Espaçamento</div>
+            <input type="range" id="lineHeightControl" min="0.5" max="3" step="0.1" value="1.5" title="Altura da linha">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label">Alinhamento</div>
+            <select id="textAlign">
+              <option value="left">Esquerda</option>
+              <option value="center" selected>Centro</option>
+              <option value="right">Direita</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls-spacer"></div>
     </div>
-
-    <div class="controls-center">
-      <div class="control-section">
-        <div class="control-group">
-          <div class="control-label">Controles</div>
-          <div style="display: flex; gap: 8px;">
-            <button id="playPause">Play</button>
-            <button id="reset">Início</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="separator"></div>
-
-      <div class="control-section">
-        <div class="control-group">
-          <div class="control-label">Velocidade</div>
-          <input type="range" id="speedRange" min="0" max="10" step="0.1" value="2">
-          <input type="number" id="speedNumber" min="0" max="10" step="0.1" value="2">
-        </div>
-      </div>
-
-      <div class="separator"></div>
-
-      <div class="control-section">
-        <div class="control-group">
-          <div class="control-label">Espelhamento</div>
-          <div class="flip-buttons">
-            <button id="flipH" title="Espelhar Horizontal">↔️</button>
-            <button id="flipV" title="Espelhar Vertical">↕️</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="separator"></div>
-
-      <div class="control-section">
-        <div class="control-group">
-          <div class="control-label">Fonte</div>
-          <select id="fontSelect">
-            <option value="Arial">Arial</option>
-            <option value="Verdana">Verdana</option>
-            <option value="Courier New">Courier New</option>
-            <option value="Georgia">Georgia</option>
-            <option value="Times New Roman">Times New Roman</option>
-          </select>
-        </div>
-
-        <div class="control-group">
-          <div class="control-label">Tamanho</div>
-          <input type="range" id="fontSizeControl" min="10" max="150" step="1" value="32">
-        </div>
-      </div>
-
-      <div class="separator"></div>
-
-      <div class="control-section">
-        <div class="control-group">
-          <div class="control-label">Cores</div>
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <input type="color" id="textColor" value="#ffffff" title="Cor do texto">
-            <input type="color" id="bgColor" value="#000000" title="Cor de fundo">
-          </div>
-        </div>
-      </div>
-
-      <div class="separator"></div>
-
-      <div class="control-section">
-        <div class="control-group">
-          <div class="control-label">Layout</div>
-          <input type="range" id="widthControl" min="30" max="100" value="40" title="Largura">
-        </div>
-
-        <div class="control-group">
-          <div class="control-label">Espaçamento</div>
-          <input type="range" id="lineHeightControl" min="0.5" max="3" step="0.1" value="1.5" title="Altura da linha">
-        </div>
-
-        <div class="control-group">
-          <div class="control-label">Alinhamento</div>
-          <select id="textAlign">
-            <option value="left">Esquerda</option>
-            <option value="center" selected>Centro</option>
-            <option value="right">Direita</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="controls-spacer"></div>
   </div>
 
   <div id="teleprompter">
@@ -561,16 +588,14 @@
       pixelAccumulator = 0;
       
       scrollInterval = setInterval(() => {
-        if (speed === 0) return; // Parado
+        if (speed === 0) return;
         
-        // Acumula pixels fracionários para movimento suave
-        pixelAccumulator += speed * 0.1; // Converte escala 0-10 para movimento em pixels
+        pixelAccumulator += speed * 0.1;
         
-        // Quando acumula pelo menos 1 pixel, move
         if (pixelAccumulator >= 1) {
           const pixelsToMove = Math.floor(pixelAccumulator);
           teleprompter.scrollTop += pixelsToMove;
-          pixelAccumulator -= pixelsToMove; // Mantém a parte fracionária
+          pixelAccumulator -= pixelsToMove;
         }
       }, 16);
     }
@@ -585,34 +610,34 @@
     }
 
     function cleanPastedContent() {
-  setTimeout(() => {
-    const allElements = teleprompterContent.querySelectorAll('*');
-    allElements.forEach(el => {
-      const computed = window.getComputedStyle(el);
+      setTimeout(() => {
+        const allElements = teleprompterContent.querySelectorAll('*');
+        allElements.forEach(el => {
+          const computed = window.getComputedStyle(el);
 
-      const isBold = computed.fontWeight === 'bold' || parseInt(computed.fontWeight) >= 600 || el.tagName === 'B' || el.tagName === 'STRONG';
-      const isItalic = computed.fontStyle === 'italic' || el.tagName === 'I' || el.tagName === 'EM';
-      const isUnderline = computed.textDecoration.includes('underline') || el.tagName === 'U';
-      const isStrikethrough = computed.textDecoration.includes('line-through') || el.tagName === 'S' || el.tagName === 'STRIKE' || el.tagName === 'DEL';
+          const isBold = computed.fontWeight === 'bold' || parseInt(computed.fontWeight) >= 600 || el.tagName === 'B' || el.tagName === 'STRONG';
+          const isItalic = computed.fontStyle === 'italic' || el.tagName === 'I' || el.tagName === 'EM';
+          const isUnderline = computed.textDecoration.includes('underline') || el.tagName === 'U';
+          const isStrikethrough = computed.textDecoration.includes('line-through') || el.tagName === 'S' || el.tagName === 'STRIKE' || el.tagName === 'DEL';
 
-      el.removeAttribute('style');
-      el.removeAttribute('class');
-      el.removeAttribute('id');
+          el.removeAttribute('style');
+          el.removeAttribute('class');
+          el.removeAttribute('id');
 
-      const badAttributes = ['bgcolor', 'color', 'face', 'size', 'align', 'valign', 'background'];
-      badAttributes.forEach(attr => el.removeAttribute(attr));
+          const badAttributes = ['bgcolor', 'color', 'face', 'size', 'align', 'valign', 'background'];
+          badAttributes.forEach(attr => el.removeAttribute(attr));
 
-      if (isBold) el.style.fontWeight = 'bold';
-      if (isItalic) el.style.fontStyle = 'italic';
-      if (isUnderline) el.style.textDecoration = 'underline';
-      if (isStrikethrough) el.style.textDecoration = el.style.textDecoration
-        ? el.style.textDecoration + ' line-through'
-        : 'line-through';
-    });
+          if (isBold) el.style.fontWeight = 'bold';
+          if (isItalic) el.style.fontStyle = 'italic';
+          if (isUnderline) el.style.textDecoration = 'underline';
+          if (isStrikethrough) el.style.textDecoration = el.style.textDecoration
+            ? el.style.textDecoration + ' line-through'
+            : 'line-through';
+        });
 
-    teleprompterContent.style.textAlign = textAlign.value;
-  }, 10);
-}
+        teleprompterContent.style.textAlign = textAlign.value;
+      }, 10);
+    }
 
     playPauseBtn.onclick = () => {
       isPlaying = !isPlaying;
@@ -672,53 +697,40 @@
       teleprompterContent.style.textAlign = textAlign.value;
     };
 
-    // Intercepta eventos de paste para limpar formatação
     teleprompterContent.addEventListener('paste', (e) => {
-      // Permite o paste normal, mas limpa depois
       cleanPastedContent();
     });
 
-    // Remove o evento de input que estava limpando durante digitação
-    // teleprompterContent.addEventListener('input', () => {
-    //   cleanPastedContent();
-    // });
+    document.body.style.backgroundColor = bgColor.value;
+    teleprompterContent.style.width = widthControl.value + '%';
 
-    // Inicializar cor de fundo
-document.body.style.backgroundColor = bgColor.value;
+    widthControl.oninput = () => {
+      teleprompterContent.style.width = widthControl.value + '%';
+    };
 
-// Inicializar largura padrão
-teleprompterContent.style.width = widthControl.value + '%';
+    document.addEventListener('keydown', (e) => {
+      const tag = document.activeElement.tagName.toLowerCase();
+      const isEditable = document.activeElement.isContentEditable;
+      const isTextInput = tag === 'input' || tag === 'textarea' || isEditable;
 
-// Atualização dinâmica ao mover o controle
-widthControl.oninput = () => {
-  teleprompterContent.style.width = widthControl.value + '%';
-};
+      if (isTextInput) return;
 
-    // Atalhos de teclado com verificação de foco
-document.addEventListener('keydown', (e) => {
-  const tag = document.activeElement.tagName.toLowerCase();
-  const isEditable = document.activeElement.isContentEditable;
-  const isTextInput = tag === 'input' || tag === 'textarea' || isEditable;
+      if (e.key === '+') {
+        updateSpeed(Math.min(speed + 0.1, 10).toFixed(1));
+      } else if (e.key === '-') {
+        updateSpeed(Math.max(speed - 0.1, 0).toFixed(1));
+      } else if (e.code === 'Space') {
+        e.preventDefault();
+        playPauseBtn.click();
+      } else if (e.key.toLowerCase() === 'h') {
+        flipHBtn.click();
+      } else if (e.key.toLowerCase() === 'v') {
+        flipVBtn.click();
+      } else if (e.key === 'Home') {
+        resetBtn.click();
+      }
+    });
 
-  if (isTextInput) return; // Ignora atalhos se estiver digitando
-
-  if (e.key === '+') {
-    updateSpeed(Math.min(speed + 0.1, 10).toFixed(1));
-  } else if (e.key === '-') {
-    updateSpeed(Math.max(speed - 0.1, 0).toFixed(1));
-  } else if (e.code === 'Space') {
-    e.preventDefault(); // evita scroll da página
-    playPauseBtn.click();
-  } else if (e.key.toLowerCase() === 'h') {
-    flipHBtn.click(); // atalho para espelhar horizontal
-  } else if (e.key.toLowerCase() === 'v') {
-    flipVBtn.click(); // atalho para espelhar vertical
-  } else if (e.key === 'Home') {
-    resetBtn.click();
-  }
-});
-
-    // Controle por scroll no mouse sobre os sliders
     document.querySelectorAll('input[type="range"]').forEach(slider => {
       slider.addEventListener('wheel', (e) => {
         e.preventDefault();
@@ -729,6 +741,30 @@ document.addEventListener('keydown', (e) => {
         slider.dispatchEvent(new Event('input'));
       });
     });
+
+    function resizeControls() {
+      const controls = document.getElementById('controls');
+      const controlsInner = document.getElementById('controlsInner');
+      if (!controls || !controlsInner) return;
+
+      const available = controls.clientWidth;
+      const contentWidth = controlsInner.scrollWidth;
+
+      let scale = 1;
+      if (contentWidth > 0 && available > 0 && contentWidth > available) {
+        scale = available / contentWidth;
+      }
+
+      controlsInner.style.transform = `scale(${scale})`;
+
+      const rect = controls.getBoundingClientRect();
+      const offset = rect.bottom + 20;
+      teleprompter.style.top = offset + 'px';
+      teleprompter.style.height = `calc(100% - ${offset}px)`;
+    }
+
+    window.addEventListener('resize', resizeControls);
+    window.addEventListener('load', resizeControls);
   </script>
 </body>
 </html>
